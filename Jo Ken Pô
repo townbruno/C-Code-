@@ -1,0 +1,112 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Função para exibir as opções do jogo e obter a escolha dos jogadores.
+int obter_Escolha(int jogador) {
+    int escolha;
+    do {
+        printf("\nJogador %d, escolha uma opcao:\n", jogador);
+        printf("1. Pedra\n");
+        printf("2. Papel\n");
+        printf("3. Tesoura\n");
+        printf("Escolha: ");
+        scanf("%d", &escolha);
+
+        if (escolha < 1 || escolha > 3) {
+            printf("Opcao invalida! Tente novamente.\n");
+        }
+    } while (escolha < 1 || escolha > 3);
+
+    return escolha;
+}
+
+// Função para determinar o vencedor com base nas escolhas dos jogadores.
+int determinar_Vencedor(int escolhaJogador1, int escolhaJogador2) {
+    if (escolhaJogador1 == escolhaJogador2) {
+        return 0; // Empate
+    } else if ((escolhaJogador1 == 1 && escolhaJogador2 == 3) ||
+               (escolhaJogador1 == 2 && escolhaJogador2 == 1) ||
+               (escolhaJogador1 == 3 && escolhaJogador2 == 2)) {
+        return 1; // Jogador 1 vence
+    } else {
+        return 2; // Jogador 2 vence
+    }
+}
+
+// Função para jogar o jogo principal.
+void jogarJogo() {
+    int pontuacaoJogador1 = 0, pontuacaoJogador2 = 0;
+    int escolhaJogador1, escolhaJogador2;
+    int resultado, jogarNovamente;
+
+    do {
+        // Coletar a escolha dos jogadores.
+        escolhaJogador1 = obter_Escolha(1);
+        escolhaJogador2 = obter_Escolha(2);
+
+        // Determinar o vencedor.
+        resultado = determinar_Vencedor(escolhaJogador1, escolhaJogador2);
+
+        // Exibir o resultado.
+        if (resultado == 1) {
+            printf("\nJogador 1 vence esta rodada!\n");
+            pontuacaoJogador1++;
+        } else if (resultado == 2) {
+            printf("\nJogador 2 vence esta rodada!\n");
+            pontuacaoJogador2++;
+        } else {
+            printf("\nEmpate!\n");
+        }
+
+        // Mostrar pontuação atual.
+        printf("\nPontuacao Atual:\n");
+        printf("Jogador 1: %d pontos\n", pontuacaoJogador1);
+        printf("Jogador 2: %d pontos\n", pontuacaoJogador2);
+
+        // Perguntar se desejam jogar novamente.
+        printf("\nDeseja jogar outra vez? (1 para Sim, 0 para Nao): ");
+        scanf("%d", &jogarNovamente);
+
+    } while (jogarNovamente == 1);
+
+    printf("\nResultado Final:\n");
+    printf("Jogador 1: %d pontos\n", pontuacaoJogador1);
+    printf("Jogador 2: %d pontos\n", pontuacaoJogador2);
+
+    if (pontuacaoJogador1 > pontuacaoJogador2) {
+        printf("\nJogador 1 é o vencedor do jogo!\n");
+    } else if (pontuacaoJogador1 < pontuacaoJogador2) {
+        printf("\nJogador 2 é o vencedor do jogo!\n");
+    } else {
+        printf("\nO jogo terminou em empate!\n");
+    }
+}
+
+// Função principal com o menu de opções.
+int main() {
+    int escolhaMenu;
+
+    do {
+        printf("\nMenu:\n");
+        printf("1. Iniciar Jogo\n");
+        printf("2. Sair do Jogo\n");
+        printf("Escolha: ");
+        scanf("%d", &escolhaMenu);
+
+        switch (escolhaMenu) {
+            case 1:
+                jogarJogo();
+                break;
+
+            case 2:
+                printf("Saindo do jogo...\n");
+                break;
+
+            default:
+                printf("Opcao invalida. Tente novamente.\n");
+        }
+
+    } while (escolhaMenu != 2);
+
+    return 0;
+}
