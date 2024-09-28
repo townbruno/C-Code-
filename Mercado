@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+// Defini so 100 produtos 
+#define MAX_PRODUTOS 100
+
+// Definição da estrutura para o produto
+struct Produto {
+    int codigo;
+    char nome[50];
+    float preco;
+};
+
+// Vetor de produtos
+struct Produto produtos[MAX_PRODUTOS];
+
+// Variável para controlar o número de produtos cadastrados
+int numProdutos = 0;
+
+// Função para adicionar um produto
+void adicionarProduto() {
+    if (numProdutos < MAX_PRODUTOS) {
+        printf("Digite o código do produto: ");
+        scanf("%d", &produtos[numProdutos].codigo);
+        printf("Digite o nome do produto: ");
+        scanf("%s", produtos[numProdutos].nome);
+        printf("Digite o preço do produto: ");
+        scanf("%f", &produtos[numProdutos].preco);
+        numProdutos++;
+        printf("Produto adicionado com sucesso!\n");
+    } else {
+        printf("Limite máximo de produtos atingido!\n");
+    }
+}
+
+// Função para consultar um produto
+void consultarProduto() {
+    int codigo;
+    printf("Digite o código do produto a ser consultado: ");
+    scanf("%d", &codigo);
+
+    for (int i = 0; i < numProdutos; i++) {
+        if (produtos[i].codigo == codigo) {
+            printf("Código: %d\nNome: %s\nPreço: %.2f\n", produtos[i].codigo, produtos[i].nome, produtos[i].preco);
+            return;
+        }
+    }
+
+    printf("Produto não encontrado!\n");
+}
+
+// Função para excluir um produto
+void excluirProduto() {
+    int codigo;
+    printf("Digite o código do produto a ser excluído: ");
+    scanf("%d", &codigo);
+
+    for (int i = 0; i < numProdutos; i++) {
+        if (produtos[i].codigo == codigo) {
+            for (int j = i; j < numProdutos - 1; j++) {
+                produtos[j] = produtos[j + 1];
+            }
+            numProdutos--;
+            printf("Produto excluído com sucesso!\n");
+            return;
+        }
+    }
+
+    printf("Produto não encontrado!\n");
+}
+
+// Função principal
+int main() {
+    int opcao;
+
+    do {
+        printf("\n=== Sistema de Mercado ===\n");
+        printf("1. Adicionar Produto\n");
+        printf("2. Consultar Produto\n");
+        printf("3. Excluir Produto\n");
+        printf("0. Sair\n");
+        printf("Digite sua opção: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                adicionarProduto();
+                break;
+            case 2:
+                consultarProduto();
+                break;
+            case 3:
+                excluirProduto();
+                break;
+            case 0:
+                printf("Saindo...\n");
+                break;
+            default:
+                printf("Opção inválida!\n");
+        }
+    } while (opcao != 0);
+
+    return 0;
+}
